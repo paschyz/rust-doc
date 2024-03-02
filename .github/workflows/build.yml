@@ -43,20 +43,9 @@ jobs:
           rustup default stable
           cargo doc
           ls -l
-        # Artifact path: target/doc
-
-  publish:
-    runs-on: ubuntu-latest
-    needs: [build, rustdoc]
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
 
       - name: Create Public Directory
         run: mkdir public
-
-      - name: Checkout src
-        run: cd src
 
       - name: List
         run: ls -l
