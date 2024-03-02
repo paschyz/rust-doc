@@ -29,7 +29,6 @@ jobs:
           rustup toolchain install stable
           rustup default stable
           cargo build --release
-        # Artifact path: target/release
 
   rustdoc:
     runs-on: ubuntu-latest
