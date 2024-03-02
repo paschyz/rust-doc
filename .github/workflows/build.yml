@@ -42,28 +42,10 @@ jobs:
           rustup toolchain install stable
           rustup default stable
           cargo doc
-          ls -l
 
-      - name: Create Public Directory
-        run: mkdir public
-
-      - name: List
-        run: ls -l
-
-      - name: Copy Documentation
-        run: mv target/doc public/doc
-
-      - name: Copy Binary
-        run: mv target/release/* public/
-
-      - name: Archive Public Directory
-        uses: actions/upload-artifact@v2
-        with:
-          name: public
-          path: public
 
     - name: Publish Documentation
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GB_TOKEN }}
-        publish_dir: ./public/doc
+        publish_dir: ./target/doc
