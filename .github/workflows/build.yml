@@ -41,7 +41,7 @@ jobs:
         run: |
           rustup toolchain install stable
           rustup default stable
-          cargo doc
+          cargo doc --no-deps
         # Artifact path: target/doc
 
   publish:
