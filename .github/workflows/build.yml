@@ -25,8 +25,6 @@ jobs:
         with:
           ref: gh-pages
           path: gh-pages
-      - name: Fix docs
-        run: ./.ci/rust-doc.sh
       - name: Push to gh-pages
         uses: ad-m/github-push-action@v0.5.0
         with:
