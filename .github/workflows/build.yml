@@ -41,7 +41,7 @@ jobs:
         run: |
           rustup toolchain install stable
           rustup default stable
-          cargo doc --no-deps
+          cargo doc
         # Artifact path: target/doc
 
   publish:
@@ -53,6 +53,9 @@ jobs:
 
       - name: Create Public Directory
         run: mkdir public
+
+      - name: List
+        run: ls -l
 
       - name: Copy Documentation
         run: mv target/doc public/doc
