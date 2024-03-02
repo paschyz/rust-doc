@@ -1,0 +1,27 @@
+name: Build Page
+
+on:
+  push:
+    branches:
+      - main  # Adjust the branch name as needed
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Build Page
+      run: |
+        # Add your build commands here, e.g., npm run build
+        # This assumes your build process generates target/index.html
+        npm install
+        npm run build
+
+    - name: Publish Page
+      uses: JamesIves/github-pages-deploy-action@3.7.1
+      with:
+        branch: gh-pages
+        folder: target/rust_doc
