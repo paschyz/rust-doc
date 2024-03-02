@@ -54,6 +54,9 @@ jobs:
       - name: Create Public Directory
         run: mkdir public
 
+      - name: Checkout src
+        run: cd src
+
       - name: List
         run: ls -l
 
