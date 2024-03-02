@@ -13,10 +13,10 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Run Tests
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-        run: cargo test
+        run: |
+          rustup toolchain install stable
+          rustup default stable
+          cargo test
 
   build:
     runs-on: ubuntu-latest
@@ -25,10 +25,10 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build Release
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-        run: cargo build --release
+        run: |
+          rustup toolchain install stable
+          rustup default stable
+          cargo build --release
         # Artifact path: target/release
 
   rustdoc:
@@ -38,10 +38,10 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Generate Documentation
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-        run: cargo doc
+        run: |
+          rustup toolchain install stable
+          rustup default stable
+          cargo doc
         # Artifact path: target/doc
 
   publish:
