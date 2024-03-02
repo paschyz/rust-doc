@@ -53,9 +53,6 @@ jobs:
       - name: Copy Documentation
         run: mv target/doc public/doc
 
-      - name: Copy Binary
-        run: mv target/release/* public/
-        # Assuming the binary file has a predictable name
 
       - name: Archive Public Directory
         uses: actions/upload-artifact@v2
