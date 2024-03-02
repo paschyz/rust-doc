@@ -1,27 +1,29 @@
-name: Rust Doc CI
+name: Rust Documentation CI
 
 on:
   push:
     branches:
-      - main
+      - main  # Change this to your main branch name if different
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
+    - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Install Rust
-      run: |
-        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-        export PATH="$HOME/.cargo/bin:$PATH"
-    - name: Generate Documentation
-      run: |
-        cargo doc --no-deps
-    - name: Publish Documentation
-      uses: peaceiris/actions-gh-pages@v3
+    - name: Setup Rust
+      uses: actions/setup-rust@v1
       with:
-        github_token: ${{ secrets.GH_TOKEN }}
-        publish_dir: ./target/doc
+        rust-version: stable
+
+    - name: Build documentation
+      run: cargo doc --no-deps --all-features
+
+    - name: Publish to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@4.1.6
+      with:
+        branch: gh-pages
+        folder: target/doc 
+        token: ${{ secrets.GH_TOKEN }}  
