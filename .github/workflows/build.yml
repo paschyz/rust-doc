@@ -1,9 +1,9 @@
-name: Build Page
+name: Rust Doc CI
 
 on:
   push:
     branches:
-      - main  # Adjust the branch name as needed
+      - main
 
 jobs:
   build:
@@ -13,15 +13,17 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
-    - name: Build Page
-      run: |
-        # Add your build commands here, e.g., npm run build
-        # This assumes your build process generates target/index.html
-        npm install
-        npm run build
-
-    - name: Publish Page
-      uses: JamesIves/github-pages-deploy-action@3.7.1
+    - name: Install Rust
+      uses: actions/setup-rust@v1
       with:
-        branch: gh-pages
-        folder: target/rust_doc
+        rust-version: stable
+
+    - name: Generate Documentation
+      run: |
+        cargo doc --no-deps
+
+    - name: Publish Documentation
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./target/doc
