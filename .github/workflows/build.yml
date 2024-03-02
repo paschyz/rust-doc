@@ -16,11 +16,12 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Setup Rust
-      uses: actions/setup-rustup@v1
-      with:
-        profile: minimal
-        toolchain: stable
+    - name: Install Rust
+      run: |
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+        export PATH="$HOME/.cargo/bin:$PATH"
+        rustup default stable
+        rustup update stable
 
     - name: Build and Test
       run: |
@@ -33,5 +34,5 @@ jobs:
     - name: Deploy Documentation
       uses: peaceiris/actions-gh-pages@v3
       with:
-        github_token: ${{ secrets.GH_TOKEN }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./target/doc
