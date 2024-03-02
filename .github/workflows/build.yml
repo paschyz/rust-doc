@@ -1,50 +1,35 @@
-name: Rust CI/CD
+name: Rust Doc
 
 on:
   push:
     branches:
-      - main
+      - "main"
 
 jobs:
-  test:
+  docs:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
+      - uses: actions/checkout@v2
+      - name: Install rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          override: true
+      - name: Build docs
+        uses: actions-rs/cargo@v1
+        with:
+          command: doc
+          args: --no-deps
+      - name: Checkout gh-pages
         uses: actions/checkout@v2
-
-      - name: Run Tests
-        run: |
-          rustup toolchain install stable
-          rustup default stable
-          cargo test
-
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: Build Release
-        run: |
-          rustup toolchain install stable
-          rustup default stable
-          cargo build --release
-        # Artifact path: target/release
-
-  rustdoc:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: Generate Documentation
-        run: |
-          rustup toolchain install stable
-          rustup default stable
-          cargo doc
-
-      - name: Publish Documentation
-        uses: peaceiris/actions-gh-pages@v3
+        with:
+          ref: gh-pages
+          path: gh-pages
+      - name: Fix docs
+        run: ./.ci/rust-doc.sh
+      - name: Push to gh-pages
+        uses: ad-m/github-push-action@v0.5.0
         with:
           github_token: ${{ secrets.GH_TOKEN }}
-          publish_dir: ./target/doc
+          branch: gh-pages
+          directory: gh-pages
